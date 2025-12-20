@@ -25,6 +25,7 @@ export class HomeHeaderMenuComponent {
   logout(){
     this.authService.logout()
     this.router.navigate(['/home'])
+    window.location.reload();
   }
 
   login(){

@@ -4,39 +4,63 @@
     lg:w-lg lg:p-10 lg:text" (ngSubmit)="register()">
     <h1 class="text-xl font-normal text-slate-200 drop-shadow-slate-800 drop-shadow-xl
     md:text-2xl">Criar Conta</h1>
-    <div class="items-start text-slate-100 flex flex-col w-full md:gap-3">
-        <div class="h-4 text-[10px] text-red-200">
+    <div class="items-start text-slate-100 flex flex-col w-full md:gap-0 lg:gap-1">
+        <div class="h-4 text-[12px] mb-6 text-red-200 lg:my-0">
             <span *ngIf="isControlValid('name')">O campo de nome deve ter ao menos 3 caracteres!</span>
         </div>
-        <label for="name">Nome:</label>
-        <input type="text" minlength="3"
-            class="font-normal border-b border-slate-500 focus:outline-none mb-8 p-1 pt-2 pl-0 w-full"
+        <label class="ml-0.5" for="name">Nome:</label>
+        <input type="text" minlength="3" class="font-normal focus:outline-none pt-2 w-full"
             formControlName="name" name="name" placeholder="Digite seu nome" required>
-        <div class="h-4 text-[10px] text-red-200">
+        <div class="h-px mt-0.5 w-full bg-linear-to-r from-slate-600 to-slate-500"></div>
+
+        <div class="h-4 my-3 text-[12px] text-red-200">
             <span *ngIf="isControlValid('email')">O campo de email deve ser válido!</span>
             <span *ngIf="emailInvalid">Email já está em uso tente outro!</span>
         </div>
-        <label for="email">Email:</label>
-        <input type="text" minlength="3"
-            class="font-normal border-b border-slate-500 focus:outline-none mb-8 p-1 pt-2 pl-0 w-full"
+        <label class="ml-0.5" for="email">Email:</label>
+        <input type="email" minlength="3" class="font-normal focus:outline-none p-1 pt-2  w-full"
             formControlName="email" name="email" placeholder="Digite seu email" required>
-            <div class="h-4 text-[10px]  text-red-200">
-                <span *ngIf="isControlValid('password')">O campo de senha deve ser preenchido!</span>
-            </div>
-        <label for="password">Senha:</label>
-        <input type="password"
-            class="font-normal border-b border-slate-500 focus: focus:outline-none p-1 pt-2 pl-0 w-full"
-            formControlName="password" name="password" placeholder="Digite sua senha" required>
+        <div class="h-px w-full bg-linear-to-r from-slate-600 to-slate-500"></div>
+
+        <div class="h-4 my-3 text-[12px] text-red-200">
+            <span *ngIf="isControlValid('password')">O campo de senha deve ser preenchido!</span>
+        </div>
+        <label class="ml-0.5" for="password">Senha:</label>
+
+        <div class="flex w-full">
+
+            <input [type]="hidePassword ? 'password' : 'text'" class="font-normal focus:outline-none w-full ml-1"
+                formControlName="password" name="password" placeholder="Digite sua senha" required>
+
+            <button type="button" (click)="hidePassword = !hidePassword" class="text-slate-400 hover:text-slate-100 ">
+                <svg *ngIf="hidePassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+
+                <svg *ngIf="!hidePassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+                </svg>
+            </button>
+
+        </div>
+
+        <div class="h-px mt-0.5 w-full bg-linear-to-r from-slate-600 to-slate-500"></div>
+
         <div class="w-full py-5 flex gap-2">
             <span>Já é logado?</span>
-            <a class="active:text-slate-300 hover:cursor-pointer hover:text-yellow-50" routerLink="/auth/fazer-login">Faça Login</a>
+            <a class="active:text-slate-300 hover:cursor-pointer hover:text-yellow-50"
+                routerLink="/auth/fazer-login">Faça Login</a>
         </div>
     </div>
-    <button
-        class="focus-visible:outline-none disabled:opacity-30 disabled:cursor-not-allowed
+    <button class="focus-visible:outline-none disabled:opacity-30 disabled:cursor-not-allowed
         focus-visible:ring-4 focus-visible:ring-slate-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-800 focus-visible:scale-105
         drop-shadow-slate-800 drop-shadow-xl py-2 text-white text-xl from-slate-700 bg-linear-to-r to-slate-600 border bg-slate-700 border-slate-400 rounded-lg
         hover:bg-linear-to-r hover:from-slate-600 hover:to-slate-500 hover:cursor-pointer transition-all duration-300 w-4/7
-        md:text-2xl" [disabled]="isLoading"
-        type="submit">{{ isLoading ? 'Entrando' : 'Criar Conta' }}</button>
+        md:text-2xl" [disabled]="isLoading" type="submit">{{ isLoading ? 'Entrando' : 'Criar Conta' }}</button>
 </form>

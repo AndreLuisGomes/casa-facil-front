@@ -1,59 +1,22 @@
-# ProjetLogin
+# Sistema de Autenticação Fullstack - Angular 19 & Spring Boot
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.2.
+Este projeto é um ecossistema completo de autenticação desenvolvido para demonstrar a integração entre um front-end de última geração e um back-end seguro e escalável. A aplicação foca em **User Experience (UX)** refinada, segurança de dados e monitoramento de performance.
 
-## Development server
+## Tecnologias Utilizadas
 
-To start a local development server, run:
+### **Front-end**
+* **Angular 19 (Standalone Architecture):** Otimização de performance e código mais limpo sem módulos desnecessários.
+* **Tailwind CSS 4:** Estilização de alta performance com a versão mais recente do framework.
+* **RxJS:** Gerenciamento reativo de estados com `BehaviorSubject` e `Observable`.
+* **Angular Router:** Fluxo de navegação inteligente e Guards de proteção.
 
-```bash
-ng serve
-```
+### **Back-end**
+* **Java & Spring Boot:** Arquitetura robusta para serviços profissionais.
+* **Spring Security:** Camada de proteção para os endpoints e gerenciamento de permissões.
+* **H2 Database:** Banco de dados em memória para agilidade em ambiente de desenvolvimento.
+* **Postman:** Utilizado para a validação rigorosa da API e contratos de dados antes da integração final.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Diferenciais de Implementação
+* **Layout Stability:** Uso de técnicas de "espaço reservado" para evitar saltos de layout (Layout Shift) ao exibir mensagens de erro.
+* **Feedback de Processamento:** Botões com estados de carregamento e proteção contra múltiplos cliques durante chamadas à API.
+* **Clean Code:** Estrutura de pastas organizada por responsabilidade, facilitando a manutenção e escala do projeto.

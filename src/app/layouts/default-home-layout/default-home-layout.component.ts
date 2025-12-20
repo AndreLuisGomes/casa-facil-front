@@ -8,7 +8,7 @@ import { HomeHeaderMenuComponent } from "./home-header-menu/home-header-menu.com
 @Component({
   selector: 'app-default-home-layout',
   standalone: true,
-  imports: [RouterLink, HomeHeaderMenuComponent, RouterOutlet, CommonModule],
+  imports: [HomeHeaderMenuComponent, RouterOutlet, CommonModule],
   templateUrl: './default-home-layout.component.html',
 })
 export class DefaultHomeLayoutComponent {
@@ -18,4 +18,8 @@ export class DefaultHomeLayoutComponent {
   constructor(private router: Router, public authService: AuthService) {
     this.authState$ = this.authService.authState$;
   } 
+
+  login(){
+    this.router.navigate(['auth/fazer-login'])
+  }
 }
