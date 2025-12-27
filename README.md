@@ -1,6 +1,6 @@
 # Sistema de Autenticação Fullstack - Angular 19 & Spring Boot
 
-Este projeto é um ecossistema completo de autenticação desenvolvido para demonstrar a integração entre um front-end de última geração e um back-end seguro e escalável. A aplicação foca em **User Experience (UX)** refinada, segurança de dados e monitoramento de performance.
+Este projeto é um ecossistema completo de autenticação desenvolvido para demonstrar a integração entre um front-end responsivo e um back-end seguro e escalável. A aplicação foca em **User Experience (UX)** refinada, segurança de dados e monitoramento de performance.
 
 ## Tecnologias Utilizadas
 
@@ -18,6 +18,6 @@ Este projeto é um ecossistema completo de autenticação desenvolvido para demo
 
 ## Diferenciais de Implementação
 * **Layout Stability:** Uso de técnicas de "espaço reservado" para evitar saltos de layout (Layout Shift) ao exibir mensagens de erro.
-* **Feedback de Processamento:** Botões com estados de carregamento e proteção contra múltiplos cliques durante chamadas à API.
+* **Feedback de Processamento:** Botões com estados de carregamento e proteção contra múltiplos cliques durante chamadas à API.git 
 * **Feedback de Navegação:** Elementos dinâmicos no HTML para indicar estado de sessão de usuário.
 * **Clean Code:** Estrutura de pastas organizada por responsabilidade, facilitando a manutenção e escala do projeto.
