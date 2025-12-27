@@ -5,6 +5,8 @@ import { Router, RouterLink } from '@angular/router';
 import { UserRegisterDTO } from '../../../../../models/interfaces/user';
 import { AuthService } from '../../../../services/auth.service';
 import { UserService } from '../../../../services/user.service';
+import { CommonUXService } from '../../../../services/common-ux.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -18,13 +20,16 @@ export class RegisterComponent {
   emailInvalid: boolean = false;
   registerForm: FormGroup;
   hidePassword = true;
+  isPasswordValid = true;
 
-  constructor(private userService: UserService, private authService: AuthService, private router: Router) {
+  constructor(private userService: UserService, private authService: AuthService, private router: Router, public commonService: CommonUXService) {
     this.registerForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(3)]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', Validators.required)
+      password: new FormControl('', Validators.required),
+      role: new FormControl('renter', Validators.required),
     });
+    this.commonService.reset();
   }
 
   register() {
@@ -32,9 +37,8 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.isLoading = true;
       this.authService.register(this.registerForm.value as UserRegisterDTO).subscribe({
-        next: (user) => {
-          console.log('Usuário registrado!', user.name),
-            this.authService.login(this.registerForm.get('email')?.value, this.registerForm.get('password')?.value)
+        next: session => {
+          this.authService.currentUser.set(session);
           this.router.navigate(['/home']);
         },
         error: error => {
@@ -49,5 +53,25 @@ export class RegisterComponent {
   isControlValid(controlName: string): boolean {
     const control = this.registerForm.get(controlName);
     return !!control && control?.invalid && (control.dirty || control?.touched);
+  }
+
+  commonRegisterOption() {
+    this.commonService.toggleRegisterCanProceed();
+    this.commonService.toggleRegisterOptions();
+
+  }
+
+  owner() {
+    this.registerForm.get('role')?.setValue('owner');
+    this.commonRegisterOption();
+  }
+
+  renter() {
+    this.commonRegisterOption();
+  }
+
+
+  passwordVerify() {
+
   }
 }

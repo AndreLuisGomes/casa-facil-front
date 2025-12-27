@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, Signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../../../services/user.service';
 import { User, UserLoginDTO } from '../../../../../models/interfaces/user';
@@ -14,14 +14,14 @@ import { Router, RouterLink } from "@angular/router";
 })
 export class LoginComponent {
 
-  invalidLogin: boolean = false;
+  invalidLogin = signal<boolean>(false);
+  isLoading = signal<boolean>(false);
   loginForm: FormGroup;
-  isLoading: boolean = false;
   hidePassword = true;
 
   constructor(private userService: UserService, private router: Router, private authService: AuthService = inject(AuthService)) {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.email]),
+      email: new FormControl('', Validators.email),
       password: new FormControl('', Validators.required)
     });
   }
@@ -29,20 +29,18 @@ export class LoginComponent {
   login() {
     this.loginForm.markAllAsTouched()
     if (this.loginForm.valid) {
-      this.isLoading = true;
-      this.authService.login(this.loginForm.get('email')?.value, this.loginForm.get('password')?.value).subscribe({
-        next: (user) => {
-          console.log('Logando usuário: ', user.name, 'e Token'),
-          this.authService.login(this.loginForm.get('email')?.value, this.loginForm.get('password')?.value);
+      this.invalidLogin.set(false);
+      this.isLoading.set(true);
+      this.authService.login(this.loginForm.value as UserLoginDTO).subscribe({
+        next: () => {
           this.router.navigate(['/home']);
-          this.invalidLogin = false
         },
-        error: (error) => {
-          console.error('Erro', error),
-            this.invalidLogin = true
-            this.isLoading = false;
+        error: (err) => {
+          this.invalidLogin.set(true);
+          this.isLoading.set(false);
+          console.error(err);
         }
-      });
+      })
     }
   }
 

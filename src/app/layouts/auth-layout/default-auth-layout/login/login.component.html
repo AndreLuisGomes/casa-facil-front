@@ -2,21 +2,27 @@
     sm:w-sm sm:gap-5 sm:p-8 
     md:w-md md:p-9 md:text-sm
     lg:w-lg lg:p-10" (ngSubmit)="login()">
+
     <h1 class="text-xl font-normal text-slate-200 drop-shadow-slate-800 drop-shadow-xl
     md:text-2xl">Fazer Login</h1>
+
     <div class="items-start relative text-slate-100 flex flex-col w-full md:gap-3">
+
         <div class="h-4 mt-3 pl-1 sm:text-[13px] text-red-200">
             <span class="text-[11px]" *ngIf="isControlValid('email')">O campo de email deve ser válido!</span>
         </div>
+
         <label class="pl-1 my-2" for="email">Email:</label>
         <div class="flex flex-col justify-between w-full">
             <input type="text" class="font-normal pl-2 focus:outline-none w-full" formControlName="email" name="email"
                 placeholder="Digite seu email" required>
             <div class="h-px mt-1 md:mt-3 w-full bg-linear-to-r from-slate-600 to-slate-500"></div>
         </div>
+
         <div class="h-4 mt-3 pl-1 sm:text-[13px]  text-red-200">
             <span class="text-[11px]" *ngIf="isControlValid('password')">O campo de senha deve ser preenchido!</span>
         </div>
+
         <label class="pl-1 my-2" for="password">Senha:</label>
         <div class="flex justify-between w-full">
             <input [type]="hidePassword ? 'password' : 'text'" class="font-normal pl-2 focus:outline-none w-full"
@@ -39,19 +45,19 @@
                         d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
                 </svg>
             </button>
-            
+
         </div>
+
         <div class="h-px mt-0.5 w-full bg-linear-to-r from-slate-600 to-slate-500
             sm:mt-0.5"></div>
 
-        <!-- Botão de  -->
-
         <div class="pt-5  w-full flex flex-row-reverse justify-between">
-            <a class="active:text-slate-300 hover:text-yellow-50" routerLink="/home">Esqueceu sua senha?</a>
-            <a class="active:text-slate-300 hover:text-yellow-50" [routerLink]="['/auth', 'criar-conta']">Criar conta</a>
+            <a class="active:text-slate-300 hover:text-amber-100" routerLink="/home">Esqueceu sua senha?</a>
+            <a class="active:text-slate-300 hover:text-amber-100" [routerLink]="['/auth', 'criar-conta']">Criar
+                conta</a>
         </div>
         <div class="text-center mt-3 justify-end h-5 w-full">
-            <span class="text-red-200 font-normal text-center w-full" *ngIf="invalidLogin">Login ou senha
+            <span class="text-red-200 font-normal text-center w-full" *ngIf="!!invalidLogin()">Email ou senha
                 incorretos!</span>
         </div>
     </div>
@@ -62,5 +68,5 @@
         focus-visible:ring-4 focus-visible:ring-slate-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-800 focus-visible:scale-105
         drop-shadow-slate-800 drop-shadow-xl py-2 text-white text-xl from-slate-700 bg-linear-to-r to-slate-600 border border-slate-500 rounded-lg
         hover:bg-linear-to-r hover:from-slate-600 hover:to-slate-500 hover:cursor-pointer transition-all duration-300 w-4/7
-        md:text-2xl" [disabled]="isLoading" type="submit">{{ isLoading ? 'Entrando' : 'Logar' }}</button>
+        md:text-2xl" [disabled]="!!isLoading()" type="submit">{{ !!isLoading() ? 'Entrando' : 'Logar' }}</button>
 </form>

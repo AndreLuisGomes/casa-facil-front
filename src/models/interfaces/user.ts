@@ -2,6 +2,7 @@ export interface User{
     name: string;
     email: string;
     password: string;
+    role: string;
 }
 
 export interface UserSession{
@@ -23,4 +24,5 @@ export interface UserRegisterDTO{
     name: string;
     email: string;
     password: string;   
+    role: string;
 }

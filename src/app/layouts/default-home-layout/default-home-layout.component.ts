@@ -16,7 +16,7 @@ export class DefaultHomeLayoutComponent {
   authState$!: Observable<AuthResponse | null>;
 
   constructor(private router: Router, public authService: AuthService) {
-    this.authState$ = this.authService.authState$;
+    
   } 
 
   login(){

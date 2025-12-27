@@ -12,14 +12,12 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class HomeHeaderMenuComponent {
 
-  authState$! : BehaviorSubject<AuthResponse | null>;
-
-  constructor(private authService : AuthService, private router: Router){
+  constructor(public authService : AuthService, private router: Router){
     
   }
 
   isLogged() : boolean{
-    return !!this.authService.getIsLoggedIn();
+    return !!this.authService.currentUser
   }
 
   logout(){

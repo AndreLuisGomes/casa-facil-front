@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { User } from '../../models/interfaces/user';
+import { User, UserLoginDTO } from '../../models/interfaces/user';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -13,6 +13,7 @@ export interface RegisterUser {
 export interface AuthResponse {
   name: string | null;
   token: string | null;
+  role: string | null;
 }
 
 @Injectable({
@@ -22,58 +23,47 @@ export class AuthService {
 
   apiURL: string = "http://localhost:8080"
 
-  private authState = new BehaviorSubject<AuthResponse | null>({
-    token: null,
-    name: null  
-  });
-  
-  authState$ = this.authState.asObservable();
-
-  constructor(private http : HttpClient, private router : Router){
-    this.restoreSession();
+  constructor(private http: HttpClient, private router: Router) {
   }
 
-  login(email: string, password: string) : Observable<AuthResponse>{
-    return this.http.post<AuthResponse>(`${this.apiURL}/auth/login`, {
-      email, password
-    }).pipe(
-      tap(response => this.setSession(response))
+  currentUser = signal<AuthResponse | null>(this.getUserFromStorage());
+
+  isLoggedIn = computed(() => !!this.currentUser());
+
+  currentName = computed(() => this.currentUser()?.name ?? null);
+
+  // Função para login
+
+  login(userLogin: UserLoginDTO): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiURL}/auth/login`, userLogin).pipe(
+      tap(response => {
+        localStorage.setItem('user_data', JSON.stringify(response));
+        this.currentUser.set({...response});
+        this.router.navigate(['/home']);
+      })
     )
   }
 
-  private setSession(session: AuthResponse) : void{
-    localStorage.setItem('token', session.token!)
-    localStorage.setItem('name', session.name!)
-    this.authState.next(session)
-  }
+  // Função para registrar
 
-  private restoreSession() : void{
-    const token = localStorage.getItem('token');
-    const name = localStorage.getItem('name');
-    if(token && name){
-      const authResponse : AuthResponse = {token, name};
-      this.authState.next(authResponse)
-    }
-  }
-
-  register(user : User) : Observable<AuthResponse>{
+  register(user: User): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiURL}/auth/register`, user)
-    .pipe(
-      tap(session => this.setSession(session))
-    )
+      .pipe(
+        tap((session) => {
+          localStorage.setItem('user_data', JSON.stringify(session))
+          this.currentUser.set(session)
+        }
+        )
+      )
   }
 
   logout() {
-    localStorage.clear();
-    this.authState.next(null);
-    this.router.navigate(['/home']);
+    localStorage.removeItem('user_data');
+    this.currentUser.set(null);
   }
 
-  getIsLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
-  }
-
-  getUser(): AuthResponse | null {
-    return this.authState.value;
+  getUserFromStorage(): AuthResponse | null {
+    const userData = localStorage.getItem('user_data');
+    return userData ? JSON.parse(userData) : null;
   }
 }

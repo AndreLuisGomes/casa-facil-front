@@ -5,6 +5,7 @@ import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
+  standalone : true,
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
 })
